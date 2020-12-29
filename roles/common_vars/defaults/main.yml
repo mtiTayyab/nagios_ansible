@@ -1,0 +1,5 @@
+---
+packages:       
+  - nagios.gz
+  - nrpe.tar.gz
+  - pre-install.tgz
