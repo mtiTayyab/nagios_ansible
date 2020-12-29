@@ -8,3 +8,4 @@
       src: ../files/pre-install.tgz
       dest: /var/www/html/nagios_ansible/.
       remote_src: true
+    delegate_to: 127.0.0.1
