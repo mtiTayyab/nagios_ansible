@@ -1,0 +1,10 @@
+---
+- name: setting up nagios using roles.
+  hosts: all
+  roles:
+    - role: pre-nagios
+      become: true
+      tags:
+        - setup
+        - pre-requisite
+        
