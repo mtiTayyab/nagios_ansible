@@ -5,6 +5,6 @@
       state: directory
 -   name: Un-taring all the pre-requisite packages
     unarchive:
-      src: pre-install.tgz
+      src: ./roles/pre-nagios/files/pre-install.tgz
       dest: /var/www/html/nagios_ansible/.
       remote_src: true
