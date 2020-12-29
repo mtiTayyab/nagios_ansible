@@ -1,6 +1,5 @@
 ---
 -  name: Creating repo folder
    file:
-      path: /var/www/html/nagios_ansible
+      path: /var/www/html/123/123/nagios_ansible
       state: directory
-      

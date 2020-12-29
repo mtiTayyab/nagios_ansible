@@ -1,5 +1,5 @@
 [masters]
-master  ansible_host=127.0.0.1 ansible_user=root 
+master  ansible_host=127.0.0.1 ansible_user=root ansible_ssh_host_
 
 [childs]
 child1  ansible_host=127.0.0.1 ansible_user=root 
