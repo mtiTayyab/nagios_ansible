@@ -3,9 +3,10 @@
    file:
       path: /var/www/html/nagios_ansible
       state: directory
--   name: Un-taring all the pre-requisite packages
-    unarchive:
-      src: roles/pre-nagios/files/pre-install.tgz
-      dest: /var/www/html/nagios_ansible/.
-      remote_src: true
-    delegate_to: 127.0.0.1
+-   name: Copying the pre-requisite packages
+    copy:
+      src: "{{ item }}"
+      dest: "/var/www/html/nagios_ansible/{{ item }}"
+-   name: using shell module to Un-taring
+    shell: tar -xvf /var/www/html/nagios_ansible/*gz
+
