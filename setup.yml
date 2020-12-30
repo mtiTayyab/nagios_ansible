@@ -2,10 +2,6 @@
 - name: setting up nagios, httpd and repository using roles.
   hosts: masters
   roles:
-    - role: dependency_injection
-      become: true
-      tags:
-        - dependencies
     - role: pre-nagios
       become: true
       tags:
