@@ -1,7 +1,13 @@
 ---
-packages:       
-  - nagios.gz
-  - nrpe.tar.gz
-  - pre-install.tgz
+nagios_pre_req_packages:       
+  - httpd-tools
+  - php 
+  - gcc 
+  - glibc 
+  - glibc-common 
+  - gd 
+  - gd-devel 
+  - make 
+  - net-snmp
 
 master_ip: 127.0.0.1
