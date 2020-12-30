@@ -8,7 +8,7 @@
     #     - setup
     #     - pre-requisite
     
-    - role: nagios
+    - role: nagios-khamkhuwa
       become: true
       tags:
         - nagios
