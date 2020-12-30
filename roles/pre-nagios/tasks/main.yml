@@ -16,7 +16,10 @@
     name: nagios_ansible
     description: Nagios 
     baseurl: file:////var/www/html/nagios_ansible/
+
 - name: install httpd
   yum:
     name: httpd
     state: present
+    disablerepo: "*"
+    enablerepo: nagios_ansible
