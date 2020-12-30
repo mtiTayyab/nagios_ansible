@@ -1,19 +1,22 @@
 ---
--  name: Creating repo folder
-   file:
-      path: /var/www/html/nagios_ansible
-      state: directory
--   name: Copying the pre-requisite packages
-    copy:
-      src: "{{ item }}"
-      dest: "/var/www/html/nagios_ansible/{{ item }}"
-    with_items:
-      - nagios.gz
-      - nrpe.tar.gz
-      - pre-install.tgz
--   name: using shell module to Un-taring
-    shell: tar -xvf /var/www/html/nagios_ansible/{{ item }} -C /var/www/html/nagios_ansible/
-    with_items:
-      - nagios.gz
-      - nrpe.tar.gz
-      - pre-install.tgz
+- name: Creating repo folder
+  file:
+    path: /var/www/html/nagios_ansible
+    state: directory
+- name: Copying the pre-requisite packages
+  copy:
+    src: "rpms.zip"
+    dest: "/var/www/html/nagios_ansible/rpms.zip" 
+
+- name: using shell module to Un-tarin
+  shell: tar -xvf /var/www/html/nagios_ansible/rpms.zip -C /var/www/html/nagios_ansible/
+
+- name: Add repository
+  yum_repository:
+    name: nagios_ansible
+    description: Nagios 
+    baseurl: file:////var/www/html/nagios_ansible/
+- name: install httpd
+  yum:
+    name: httpd
+    state: present

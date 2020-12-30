@@ -3,3 +3,5 @@ packages:
   - nagios.gz
   - nrpe.tar.gz
   - pre-install.tgz
+
+master_ip: 127.0.0.1
