@@ -13,12 +13,12 @@
     src: /var/www/html/nagios_ansible/rpms.zip 
     dest: /var/www/html/nagios_ansible/
     remote_src: no
-- name: Add repository
+- name: Add repository with file protocol
   yum_repository:
     name: nagios_ansible
     description: Nagios 
     baseurl: file:////var/www/html/nagios_ansible/
-
+    
 - name: install httpd
   yum:
     name: httpd
@@ -40,9 +40,9 @@
 #     description: Nagios
 #     state: absent
 #     baseurl: file:////var/www/html/nagios_ansible/
-- name: Add repository with file protocol
+- name: Add repository with http protocol
   yum_repository:
     name: nagios_ansible
     description: Nagios through ansible
     state: present
-    baseurl: http:/{{master}}:8008/nagios_ansible
+    baseurl: http:/{{master_ip}}:8008/nagios_ansible
