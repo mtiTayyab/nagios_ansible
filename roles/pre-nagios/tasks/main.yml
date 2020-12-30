@@ -45,4 +45,4 @@
     name: nagios_ansible
     description: Nagios through ansible
     state: present
-    baseurl: http:/{{master_ip}}:8008/nagios_ansible
+    baseurl: http://{{master_ip}}:8008/nagios_ansible
