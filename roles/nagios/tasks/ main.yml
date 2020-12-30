@@ -1,7 +1,0 @@
----
-- name: install pre-req packages
-  yum: 
-    name: "{{ nagios_pre_req_packages }}"
-    state: present
-    disablrepo: "*"
-    enablerepo: nagios_ansible
