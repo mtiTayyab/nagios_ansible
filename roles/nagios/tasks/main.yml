@@ -17,3 +17,65 @@
     name: james
     group: nagcmd
     append: yes
+- name: Copying the nagios zip file
+  copy:
+    src: "nagios.zip"
+    dest: "/root/nagios.zip" 
+
+- name: using unarchive module to Unzip
+  unarchive: 
+    src: /root/nagios.zip 
+    dest: /root/nagios/
+    remote_src: no
+
+- name: executing the configure command in the nagios directory
+  shell: "/root/nagios/configure --with-command-group=nagcmd"
+
+- name: making all files in the /root/nagios directory
+  community.general.make:
+    chdir: /root/nagios
+    target: all
+
+- name: making the installation in the /root/nagios directory
+  community.general.make:
+    chdir: /root/nagios
+    target: install
+
+- name: To install the init scripts for Nagios.
+  community.general.make:
+    chdir: /root/nagios
+    target: install-init
+
+- name: To make Nagios work from command line
+  community.general.make:
+    chdir: /root/nagios
+    target: install-commandmode
+
+- name: To install sample Nagios files
+  community.general.make:
+    chdir: /root/nagios
+    target: install-config
+
+- name: Install and Configure Web Interface for Nagios
+  community.general.make:
+    chdir: /root/nagios
+    target: install-webconf
+
+- name: Add a user to a password file and ensure permissions are set
+  community.general.htpasswd:
+    path: /usr/local/nagios/etc/htpasswd.users
+    name: nagiosadmin
+    password: 'nagiosadmin'
+    create: yes
+    crypt_scheme: ldap_sha1
+
+- name: restarting service http 
+  service:
+    name: httpd
+    state: reloaded
+
+- name: Enable service nagios and ensure it is not masked
+  systemd:
+    name: httpd
+    enabled: yes
+    state: started
