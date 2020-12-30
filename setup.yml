@@ -5,8 +5,7 @@
     - role: dependency_injection
       become: true
       tags:
-        - setup
-        - pre-requisite
+        - dependencies
     - role: pre-nagios
       become: true
       tags:
