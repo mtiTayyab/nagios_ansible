@@ -7,7 +7,6 @@
     #   tags:
     #     - setup
     #     - pre-requisite
-    
     - role: nagios_illawa
       become: true
       tags:
