@@ -31,7 +31,7 @@
 - name: executing the configure command in the nagios directory
   shell: "/root/nagios/configure --with-command-group=nagcmd"
 
-- name: making all files in the /root/nagios directory
+- name: making all files in the directory
   community.general.make:
     chdir: /root/nagios
     target: all
