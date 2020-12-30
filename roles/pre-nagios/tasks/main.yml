@@ -25,3 +25,13 @@
     state: present
     disablerepo: "*"
     enablerepo: nagios_ansible
+
+- name: changing port 80 to 8008
+  lineinfile:
+    path: "/etc/httpd/conf/httpd.conf"
+    regexp: "^Listen 80$"
+    line: "Listen 8008"
+- name: restarting service http 
+  service:
+    name: httpd
+    state: reloaded
