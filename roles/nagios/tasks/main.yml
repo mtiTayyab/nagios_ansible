@@ -29,7 +29,7 @@
     remote_src: no
 
 - name: executing the configure command in the nagios directory
-  shell: "/root/nagios/configure --with-command-group=nagcmd"
+  shell: /root/nagios/configure --with-command-group=nagcmd
 
 - name: making all files in the directory
   community.general.make:
