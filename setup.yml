@@ -1,4 +1,6 @@
 ---
+dependencies: 
+- common_vars
 - name: setting up nagios, httpd and repository using roles.
   hosts: masters
   roles:
