@@ -15,7 +15,7 @@
     dest: /var/www/html/nagios_ansible/
     remote_src: no
 
-- name: Add nagios repository with file protocol
+- name: Add nagios repository with file
   yum_repository:
     name: nagios_ansible
     description: Nagios 
@@ -39,7 +39,7 @@
     name: httpd
     state: reloaded
     
-- name: Add nagios repository with http protocol
+- name: Add nagios repository with html path
   yum_repository:
     name: nagios_ansible
     description: Nagios through ansible
