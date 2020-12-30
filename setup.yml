@@ -1,8 +1,8 @@
 ---
 - name: setting up nagios using roles.
+  hosts: masters
   roles:
     - role: pre-nagios
-      hosts: masters
       become: true
       tags:
         - setup
