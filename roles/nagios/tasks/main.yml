@@ -3,3 +3,17 @@
   yum: 
     name: "{{ nagios_pre_req_packages }}"
     state: present
+- name: adding nagios user group
+  group:
+    name: nagcmd
+    state: present
+- name: Add the user 'nagios' with a group of 'nagcmd'
+  user:
+    name: nagios
+    comment: Nagios User
+    group: nagcmd
+- name: Add the user 'apache' appending the group 'nagcmd'
+  user:
+    name: james
+    group: nagcmd
+    append: yes
