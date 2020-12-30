@@ -3,5 +3,3 @@
   yum: 
     name: "{{ nagios_pre_req_packages }}"
     state: present
-    disablerepo: "*"
-    enablerepo: nagios_ansible
