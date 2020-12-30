@@ -7,9 +7,9 @@
       tags:
         - setup
         - pre-requisite
+    
     - role: nagios
       become: true
       tags:
         - nagios
         - nagios_master
-      
