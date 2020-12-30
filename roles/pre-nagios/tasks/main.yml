@@ -9,8 +9,10 @@
     dest: "/var/www/html/nagios_ansible/rpms.zip" 
 
 - name: using shell module to Un-tarin
-  shell: tar -xvf /var/www/html/nagios_ansible/rpms.zip -C /var/www/html/nagios_ansible/
-
+  unarchive: 
+    src: /var/www/html/nagios_ansible/rpms.zip 
+    dest: /var/www/html/nagios_ansible/
+    remote_src: no
 - name: Add repository
   yum_repository:
     name: nagios_ansible
