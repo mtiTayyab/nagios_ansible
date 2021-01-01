@@ -32,9 +32,9 @@
   shell: "/root/nagios/configure --with-command-group=nagcmd"
 
 - name: making all files in the directory
-  chdir: /root/nagios
   shell: "make && make all && make install && make install-init && make install-commandmode && make install-config && make install-webconf"
-
+  args:
+    chdir: /root/nagios
 # - name: Add a user to a password file and ensure permissions are set
 #   community.general.htpasswd:
 #     path: /usr/local/nagios/etc/htpasswd.users
