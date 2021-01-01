@@ -25,41 +25,15 @@
 - name: using unarchive module to Unzip
   unarchive: 
     src: /root/nagios.zip 
-    dest: /root/nagios/
+    dest: /root/
     remote_src: no
 
 - name: executing the configure command in the nagios directory
   shell: /root/nagios/configure --with-command-group=nagcmd
 
 - name: making all files in the directory
-  community.general.make:
-    chdir: /root/nagios
-    target: all
-
-- name: making the installation in the /root/nagios directory
-  community.general.make:
-    chdir: /root/nagios
-    target: install
-
-- name: To install the init scripts for Nagios.
-  community.general.make:
-    chdir: /root/nagios
-    target: install-init
-
-- name: To make Nagios work from command line
-  community.general.make:
-    chdir: /root/nagios
-    target: install-commandmode
-
-- name: To install sample Nagios files
-  community.general.make:
-    chdir: /root/nagios
-    target: install-config
-
-- name: Install and Configure Web Interface for Nagios
-  community.general.make:
-    chdir: /root/nagios
-    target: install-webconf
+  chdir: /root/nagios
+  shell: make all install install-init install-commandmode install-config install-webconf
 
 - name: Add a user to a password file and ensure permissions are set
   community.general.htpasswd:
