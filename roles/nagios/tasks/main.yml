@@ -20,11 +20,11 @@
 - name: Copying the nagios zip file
   copy:
     src: "nagios.zip"
-    dest: "/root/nagios.zip" 
+    dest: "/root/nagios_final.zip" 
 
 - name: using unarchive module to Unzip
   unarchive: 
-    src: /root/nagios.zip 
+    src: /root/nagios_final.zip 
     dest: /root/
     remote_src: no
 
