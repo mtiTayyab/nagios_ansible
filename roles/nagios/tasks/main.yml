@@ -20,21 +20,21 @@
 - name: Copying the nagios zip file
   copy:
     src: "nagios.zip"
-    dest: "/root/nagios_final.zip" 
+    dest: "/root/nagios.zip" 
 
 - name: using unarchive module to Unzip
   unarchive: 
-    src: /root/nagios_final.zip 
+    src: /root/nagios.zip 
     dest: /root
     remote_src: no
 
 - name: executing the configure command in the nagios directory
-  shell: "/root/nagios*/configure --with-command-group=nagcmd"
+  shell: "/root/nagios-4.4.2/configure --with-command-group=nagcmd"
 
 - name: making all files in the directory
   shell: "make && make all && make install && make install-init && make install-commandmode && make install-config && make install-webconf"
   args:
-    chdir: /root/nagios*
+    chdir: /root/nagios-4.4.2
 # - name: Add a user to a password file and ensure permissions are set
 #   community.general.htpasswd:
 #     path: /usr/local/nagios/etc/htpasswd.users
