@@ -25,31 +25,31 @@
 - name: using unarchive module to Unzip
   unarchive: 
     src: /root/nagios_final.zip 
-    dest: /root/
+    dest: /root
     remote_src: no
 
 - name: executing the configure command in the nagios directory
-  shell: /root/nagios/configure --with-command-group=nagcmd
+  shell: "/root/nagios/configure --with-command-group=nagcmd"
 
 - name: making all files in the directory
   chdir: /root/nagios
-  shell: make all install install-init install-commandmode install-config install-webconf
+  shell: "make && make all && make install && make install-init && make install-commandmode && make install-config && make install-webconf"
 
-- name: Add a user to a password file and ensure permissions are set
-  community.general.htpasswd:
-    path: /usr/local/nagios/etc/htpasswd.users
-    name: nagiosadmin
-    password: 'nagiosadmin'
-    create: yes
-    crypt_scheme: ldap_sha1
+# - name: Add a user to a password file and ensure permissions are set
+#   community.general.htpasswd:
+#     path: /usr/local/nagios/etc/htpasswd.users
+#     name: nagiosadmin
+#     password: 'nagiosadmin'
+#     create: yes
+#     crypt_scheme: ldap_sha1
 
-- name: restarting service http 
-  service:
-    name: httpd
-    state: reloaded
+# - name: restarting service http 
+#   service:
+#     name: httpd
+#     state: reloaded
 
-- name: Enable service nagios and ensure it is not masked
-  systemd:
-    name: httpd
-    enabled: yes
-    state: started
+# - name: Enable service nagios and ensure it is not masked
+#   systemd:
+#     name: httpd
+#     enabled: yes
+#     state: started
