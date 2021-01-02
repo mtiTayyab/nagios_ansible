@@ -30,11 +30,10 @@
 
 - name: executing the configure command in the nagios directory
   command: "/root/nagios-4.4.2/configure --with-command-group=nagcmd"
-    # chdir: 
 
 - name: making all files in the directory
-  shell: "make && make all && make install && make install-init && make install-commandmode && make install-config && make install-webconf"
-  args:
+  command: 
+    cmd: "make && make all && make install && make install-init && make install-commandmode && make install-config && make install-webconf"
     chdir: /root/nagios-4.4.2
 # - name: Add a user to a password file and ensure permissions are set
 #   community.general.htpasswd:
