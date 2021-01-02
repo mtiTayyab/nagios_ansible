@@ -33,7 +33,7 @@
 
 - name: making all files in the directory
   command: 
-    cmd: "make && make all && make install && make install-init && make install-commandmode && make install-config && make install-webconf"
+    cmd: make
     chdir: /root/nagios-4.4.2
 # - name: Add a user to a password file and ensure permissions are set
 #   community.general.htpasswd:
