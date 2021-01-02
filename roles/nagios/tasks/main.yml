@@ -37,6 +37,37 @@
   command: 
     cmd: make
     chdir: /root/nagios-4.4.2
+
+- name: making all files in the directory
+  command: 
+    cmd: make all
+    chdir: /root/nagios-4.4.2
+
+- name: making all files in the directory
+  command: 
+    cmd: make install
+    chdir: /root/nagios-4.4.2
+
+- name: making all files in the directory
+  command: 
+    cmd: make install-init
+    chdir: /root/nagios-4.4.2
+
+- name: making all files in the directory
+  command: 
+    cmd: make install-commandmode
+    chdir: /root/nagios-4.4.2
+
+- name: making all files in the directory
+  command: 
+    cmd: make install-config
+    chdir: /root/nagios-4.4.2
+    
+- name: making all files in the directory
+  command: 
+    cmd: make install-webconf
+    chdir: /root/nagios-4.4.2
+
 # - name: Add a user to a password file and ensure permissions are set
 #   community.general.htpasswd:
 #     path: /usr/local/nagios/etc/htpasswd.users
