@@ -1,13 +1,22 @@
 ---
-nagios_pre_req_packages:       
+user:
+
+nag_pre_pkgs:             # pre-packages for nagios
   - httpd-tools
-  - php 
-  - gcc 
-  - glibc 
-  - glibc-common 
-  - gd 
-  - gd-devel 
-  - make 
+  - php
+  - gcc
+  - glibc
+  - glibc-common
+  - gd
+  - gd-devel
+  - make
   - net-snmp
 
-master_ip: 127.0.0.1
+master_ip: 127.0.0.1      # IP for nagios master
+
+child_ip:                 # IPs for nagios childs
+  - 127.0.0.1
+  - 127.0.0.1
+
+nag_dir: nagios-4.4.2       # Nagios source directory
+nagp_dir: nagios-plugins    # Nagios plugins source directory

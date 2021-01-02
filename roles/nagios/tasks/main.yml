@@ -1,74 +1,77 @@
 ---
-- name: install pre-req packages
+- name: Nagios - Prerequisite
   yum:
-    name: "{{ nagios_pre_req_packages }}"
+    name: "{{ nag_pre_pkgs }}"
     state: present
-- name: adding nagios user group
+
+- name: Nagios - Add Group
   group:
     name: nagcmd
     state: present
-- name: Add the user 'nagios' with a group of 'nagcmd'
+
+- name: Nagios - Add User 'nagios' as Group Member Of 'nagcmd'
   user:
     name: nagios
-    comment: Nagios User
     group: nagcmd
-- name: Add the user 'apache' appending the group 'nagcmd'
+
+- name: Nagios - Add User 'apache' as Group Member Of 'nagcmd'
   user:
-    name: james
+    name: apache
     group: nagcmd
     append: yes
-- name: Copying the nagios zip file
+
+- name: Nagios - Copy Source Zip
   copy:
     src: "nagios.zip"
-    dest: "/root/nagios.zip"
+    dest: "~/nagios.zip"
 
-- name: using unarchive module to Unzip
+- name: Nagios - Unzip
   unarchive:
-    src: /root/nagios.zip
-    dest: /root
+    src: ~/nagios.zip
+    dest: ~
     remote_src: no
 
-- name: executing the configure command in the nagios directory
+- name: Nagios - Configure Source Directory
   command:
     cmd: "./configure --with-command-group=nagcmd"
-    chdir: "/root/nagios-4.4.2"
+    chdir: "~/{{ nag_dir }}"
 
-- name: making all files in the directory
+- name: Nagios - Make
   command:
     cmd: make
-    chdir: /root/nagios-4.4.2
+    chdir: ~/{{ nag_dir }}
 
-- name: making all files in the directory
+- name: Nagios - Make All
   command:
     cmd: make all
-    chdir: /root/nagios-4.4.2
+    chdir: ~/{{ nag_dir }}
 
-- name: making all files in the directory
+- name: Nagios - Make Install
   command:
     cmd: make install
-    chdir: /root/nagios-4.4.2
+    chdir: ~/{{ nag_dir }}
 
-- name: making all files in the directory
+- name: Nagios - Install-Init
   command:
     cmd: make install-init
-    chdir: /root/nagios-4.4.2
+    chdir: ~/{{ nag_dir }}
 
-- name: making all files in the directory
+- name: Nagios - Command Mode
   command:
     cmd: make install-commandmode
-    chdir: /root/nagios-4.4.2
+    chdir: ~/{{ nag_dir }}
 
-- name: making all files in the directory
+- name: Nagios - Config
   command:
     cmd: make install-config
-    chdir: /root/nagios-4.4.2
+    chdir: ~/{{ nag_dir }}
 
-- name: making all files in the directory
+- name: Nagios - Web Conf
   command:
     cmd: make install-webconf
-    chdir: /root/nagios-4.4.2
+    chdir: ~/{{ nag_dir }}
 
-- name: Add a user to a password file and ensure permissions are set
+- name: Password File For 'nagios' User
   htpasswd:
     path: /usr/local/nagios/etc/htpasswd.users
     name: nagiosadmin
@@ -76,45 +79,38 @@
     create: yes
     crypt_scheme: ldap_sha1
 
-- name: Copying the nagios-plugins zip file
+- name: NagiosPlugins - Copy Source Zip
   copy:
-    src: "nagios-plugins.zip"
-    dest: "/root/nagios-plugins.zip"
+    src: "{{ nagp_dir }}.zip"
+    dest: "~/{{ nagp_dir }}.zip"
 
-- name: using unarchive module to Unzip
+- name: NagiosPlugins - Unzip
   unarchive:
-    src: /root/nagios-plugins.zip
-    dest: /root
+    src: ~/{{ nagp_dir }}.zip
+    dest: ~/
     remote_src: no
 
-- name: executing the configure command in the nagios directory
+- name: NagiosPlugins - Configure Source Directory
   command:
     cmd: "./configure"
-    chdir: "/root/nagios-plugins"
+    chdir: "~/{{ nagp_dir }}"
 
-- name: making all files in the directory
+- name: NagiosPlugins - Make
   command:
     cmd: make
-    chdir: /root/nagios-plugins
+    chdir: ~/{{ nagp_dir }}
 
-- name: making all files in the directory
+- name: NagiosPlugins - Make Install
   command:
     cmd: make install
-    chdir: /root/nagios-plugins
+    chdir: ~/{{ nagp_dir }}
 
-- name: restarting service http
+- name: Start Web Server
   service:
     name: httpd
     state: reloaded
 
-- name: installing nagios plugins
-  yum:
-    name: nagios-plugins
-    state: present
-    disablerepo: "*"
-    enablerepo: nagios_ansible
-
-- name: Enable service nagios and ensure it is not masked
+- name: Start Nagios
   systemd:
     name: nagios
     enabled: yes
