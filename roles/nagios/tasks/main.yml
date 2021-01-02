@@ -85,6 +85,8 @@
   yum:
     name: nagios-plugins
     state: present
+    disablerepo: "*"
+    enablerepo: nagios_ansible
 
 - name: Enable service nagios and ensure it is not masked
   systemd:
