@@ -95,7 +95,7 @@
 - name: making all files in the directory
   command:
     cmd: make
-    chdir: /root/nagios--plugins
+    chdir: /root/nagios-plugins
 
 - name: making all files in the directory
   command:
