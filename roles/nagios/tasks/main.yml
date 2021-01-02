@@ -81,8 +81,13 @@
     name: httpd
     state: reloaded
 
+- name: installing nagios plugins
+  yum:
+    name: nagios-plugins
+    state: present
+
 - name: Enable service nagios and ensure it is not masked
   systemd:
-    name: httpd
+    name: nagios
     enabled: yes
     state: started
