@@ -28,7 +28,7 @@
 - name: Nagios - Unzip
   unarchive:
     src: ~/nagios.zip
-    dest: ~
+    dest: ~/{{ nag_dir }}
     remote_src: no
 
 - name: Nagios - Configure Source Directory
