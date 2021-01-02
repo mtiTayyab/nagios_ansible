@@ -1,0 +1,128 @@
+---
+- name: Nagios - Prerequisite
+  yum:
+    name: "{{ nag_pre_pkgs }}"
+    state: present
+
+- name: Nagios - Add Group
+  group:
+    name: nagcmd
+    state: present
+
+- name: Nagios - Add User 'nagios' as Group Member Of 'nagcmd'
+  user:
+    name: nagios
+    group: nagcmd
+
+- name: Nagios - Add User 'apache' as Group Member Of 'nagcmd'
+  user:
+    name: apache
+    group: nagcmd
+    append: yes
+
+- name: Nagios - Copy Source Zip
+  copy:
+    src: "nagios.zip"
+    dest: "~/nagios.zip"
+
+- name: Nagios - Unzip
+  unarchive:
+    src: ~/nagios.zip
+    dest: ~/{{ nag_dir }}
+    remote_src: no
+
+- name: Nagios - Configure Source Directory
+  command:
+    cmd: "./configure --with-command-group=nagcmd"
+    chdir: "~/{{ nag_dir }}"
+
+- name: Nagios - Make
+  command:
+    cmd: make
+    chdir: ~/{{ nag_dir }}
+
+- name: Nagios - Make All
+  command:
+    cmd: make all
+    chdir: ~/{{ nag_dir }}
+
+- name: Nagios - Make Install
+  command:
+    cmd: make install
+    chdir: ~/{{ nag_dir }}
+
+- name: Nagios - Install-Init
+  command:
+    cmd: make install-init
+    chdir: ~/{{ nag_dir }}
+
+- name: Nagios - Command Mode
+  command:
+    cmd: make install-commandmode
+    chdir: ~/{{ nag_dir }}
+
+- name: Nagios - Config
+  command:
+    cmd: make install-config
+    chdir: ~/{{ nag_dir }}
+
+- name: Nagios - Web Conf
+  command:
+    cmd: make install-webconf
+    chdir: ~/{{ nag_dir }}
+
+- name: Password File For 'nagios' User
+  htpasswd:
+    path: /usr/local/nagios/etc/htpasswd.users
+    name: nagiosadmin
+    password: 'nagiosadmin'
+    create: yes
+    crypt_scheme: ldap_sha1
+
+- name: NRPE - Install
+  yum:
+    name: nrpe
+    state: present
+
+- name: NagiosPlugins - Copy Source Zip
+  copy:
+    src: "{{ nagp_dir }}.zip"
+    dest: "~/{{ nagp_dir }}.zip"
+
+- name: NagiosPlugins - Unzip
+  unarchive:
+    src: ~/{{ nagp_dir }}.zip
+    dest: ~/
+    remote_src: no
+
+- name: NagiosPlugins - Configure Source Directory
+  command:
+    cmd: "./configure"
+    chdir: "~/{{ nagp_dir }}"
+
+- name: NagiosPlugins - Make
+  command:
+    cmd: make
+    chdir: ~/{{ nagp_dir }}
+
+- name: NagiosPlugins - Make Install
+  command:
+    cmd: make install
+    chdir: ~/{{ nagp_dir }}
+
+- name: Start Web Server
+  service:
+    name: httpd
+    state: reloaded
+
+- name: Start Nagios
+  systemd:
+    name: nagios
+    enabled: yes
+    state: started
+
+- name: Start NRPE
+  systemd:
+    name: nrpe
+    enabled: yes
+    state: started

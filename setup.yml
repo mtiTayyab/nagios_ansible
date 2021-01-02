@@ -9,8 +9,13 @@
         - setup
         - pre-requisite
 
-    - role: nagios
+    - role: master
       become: true
       tags:
         - nagios
         - nagios_master
+
+    - role: childs
+      become: true
+      tags:
+        - nagios_childs
