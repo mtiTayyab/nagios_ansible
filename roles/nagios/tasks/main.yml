@@ -29,42 +29,42 @@
     remote_src: no
 
 - name: executing the configure command in the nagios directory
-  command: 
+  command:
     cmd: "./configure --with-command-group=nagcmd"
     chdir: "/root/nagios-4.4.2"
 
 - name: making all files in the directory
-  command: 
+  command:
     cmd: make
     chdir: /root/nagios-4.4.2
 
 - name: making all files in the directory
-  command: 
+  command:
     cmd: make all
     chdir: /root/nagios-4.4.2
 
 - name: making all files in the directory
-  command: 
+  command:
     cmd: make install
     chdir: /root/nagios-4.4.2
 
 - name: making all files in the directory
-  command: 
+  command:
     cmd: make install-init
     chdir: /root/nagios-4.4.2
 
 - name: making all files in the directory
-  command: 
+  command:
     cmd: make install-commandmode
     chdir: /root/nagios-4.4.2
 
 - name: making all files in the directory
-  command: 
+  command:
     cmd: make install-config
     chdir: /root/nagios-4.4.2
 
 - name: making all files in the directory
-  command: 
+  command:
     cmd: make install-webconf
     chdir: /root/nagios-4.4.2
 
@@ -75,6 +75,22 @@
     password: 'nagiosadmin'
     create: yes
     crypt_scheme: ldap_sha1
+
+- name: Copying the nagios-plugins zip file
+  copy:
+    src: "nagios-plugins.zip"
+    dest: "/root/nagios-plugins.zip"
+
+- name: using unarchive module to Unzip
+  unarchive:
+    src: /root/nagios-plugins.zip
+    dest: /root
+    remote_src: no
+
+- name: executing the configure command in the nagios directory
+  command:
+    cmd: "./configure"
+    chdir: "/root/nagios--plugins"
 
 - name: restarting service http
   service:
