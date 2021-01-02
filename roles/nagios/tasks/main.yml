@@ -29,7 +29,9 @@
     remote_src: no
 
 - name: executing the configure command in the nagios directory
-  command: "/root/nagios-4.4.2/configure --with-command-group=nagcmd"
+  command: 
+    cmd: "configure --with-command-group=nagcmd"
+    chdir: "/root/nagios-4.4.2"
 
 - name: making all files in the directory
   command: 
