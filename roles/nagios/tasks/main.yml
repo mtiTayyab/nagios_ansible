@@ -92,6 +92,16 @@
     cmd: "./configure"
     chdir: "/root/nagios-plugins"
 
+- name: making all files in the directory
+  command:
+    cmd: make
+    chdir: /root/nagios--plugins
+
+- name: making all files in the directory
+  command:
+    cmd: make install
+    chdir: /root/nagios-plugins
+
 - name: restarting service http
   service:
     name: httpd
