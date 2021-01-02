@@ -7,20 +7,20 @@
 - name: Copying the pre-requisite packages
   copy:
     src: "rpms.zip"
-    dest: "/var/www/html/nagios_ansible/rpms.zip" 
+    dest: "/var/www/html/nagios_ansible/rpms.zip"
 
 - name: using shell module to Un-tarin
-  unarchive: 
-    src: /var/www/html/nagios_ansible/rpms.zip 
+  unarchive:
+    src: /var/www/html/nagios_ansible/rpms.zip
     dest: /var/www/html/nagios_ansible/
     remote_src: no
 
-- name: Add nagios repository with local file protocol 
+- name: Add nagios repository with local file protocol
   yum_repository:
     name: nagios_ansible
-    description: Nagios 
+    description: Nagios
     baseurl: file:////var/www/html/nagios_ansible/
-    
+
 - name: install httpd
   yum:
     name: httpd
@@ -28,20 +28,20 @@
     disablerepo: "*"
     enablerepo: nagios_ansible
 
-- name: changing port 80 to 8008
+- name: changing port 80 to Custom
   lineinfile:
     path: "/etc/httpd/conf/httpd.conf"
     regexp: "^Listen 80$"
-    line: "Listen 8008"
+    line: "Listen {{ nag_port }}"
 
-- name: restarting service http 
+- name: restarting service http
   service:
     name: httpd
     state: reloaded
-    
+
 - name: Add nagios repository with html path protocol
   yum_repository:
     name: nagios_ansible
     description: Nagios through ansible
     state: present
-    baseurl: http://{{master_ip}}:8008/nagios_ansible
+    baseurl: http://{{master_ip}}:{{ nag_port }}/nagios_ansible
