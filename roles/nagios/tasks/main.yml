@@ -90,7 +90,7 @@
 - name: executing the configure command in the nagios directory
   command:
     cmd: "./configure"
-    chdir: "/root/nagios--plugins"
+    chdir: "/root/nagios-plugins"
 
 - name: restarting service http
   service:
