@@ -29,9 +29,8 @@
     remote_src: no
 
 - name: executing the configure command in the nagios directory
-  command: "configure --with-command-group=nagcmd"
-  args:
-    chdir: /root/nagios-4.4.2
+  command: "/root/nagios-4.4.2/configure --with-command-group=nagcmd"
+    # chdir: 
 
 - name: making all files in the directory
   shell: "make && make all && make install && make install-init && make install-commandmode && make install-config && make install-webconf"
