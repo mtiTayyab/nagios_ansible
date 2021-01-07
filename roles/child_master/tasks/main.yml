@@ -21,7 +21,6 @@
   
   blockinfile:
     path: /root/hosts.cfg
-    append: true
     block: |
       define host{
           use             generic-server
