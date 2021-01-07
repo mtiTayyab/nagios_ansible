@@ -14,7 +14,7 @@
 
 - name: host file in conf.d directory
   file:
-    path: /usr/local/nagios/etc/conf.d/hosts.cfg
+    path: /root/hosts.cfg
     state: touch
 
 - name: adding every child host entry in hosts.cfg file
