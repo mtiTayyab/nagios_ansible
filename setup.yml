@@ -3,22 +3,22 @@
   hosts: masters
   roles:
 
-    - role: pre-nagios
-      become: true
-      tags:
-        - setup
-        - pre-requisite
+    # - role: pre-nagios
+    #   become: true
+    #   tags:
+    #     - setup
+    #     - pre-requisite
 
-    - role: master
-      become: true
-      tags:
-        - nagios
-        - nagios_master
+    # - role: master
+    #   become: true
+    #   tags:
+    #     - nagios
+    #     - nagios_master
 
-    - role: childs
-      become: true
-      tags:
-        - nagios_childs
+    # - role: childs
+    #   become: true
+    #   tags:
+    #     - nagios_childs
 
     - role: child_master
       become: true
