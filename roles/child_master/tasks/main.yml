@@ -1,0 +1,44 @@
+---
+- name: conf.d directory in master node.
+  file: 
+    path: /usr/local/nagios/etc/conf.d
+    state: directory
+    group: nagcmd
+    owner: nagios
+    mode: "0755"
+
+- name: include conf.d in nagios.cfg
+  lineinfile:
+    path: /usr/local/nagios/etc/nagios.cfg
+    line: "cfg_dir=/usr/local/nagios/etc/conf.d"
+
+- name: host file in conf.d directory
+  file:
+    path: /usr/local/nagios/etc/conf.d/hosts.cfg
+    state: touch
+
+- name: adding every child host entry in hosts.cfg file
+  
+  blockinfile:
+    path: /root/hosts.cfg
+    block: |
+      define host{
+          use             generic-server
+          host_name       {{ item.name }}
+          alias           {{ item.name }}
+          address         {{ item.ip }}
+        }
+  with_items: {{ childs }}
+
+# - name: adding every child host group entry in hosts.cfg file
+  
+#   blockinfile:
+#     path: /usr/local/nagios/etc/conf.d/hosts.cfg
+#     block: |
+#       define host{
+#           use             generic-server
+#           host_name       {{ child_alias }}
+#           alias           {{ child_alias }}
+#           address         {{ child_ip }}
+#         }
+

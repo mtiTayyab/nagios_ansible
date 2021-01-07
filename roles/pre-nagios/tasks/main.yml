@@ -32,7 +32,7 @@
   lineinfile:
     path: "/etc/httpd/conf/httpd.conf"
     regexp: "^Listen 80$"
-    line: "Listen {{ nag_port }}"
+    line: "Listen {{ http_custom_port }}"
 
 - name: restarting service http
   service:
@@ -44,4 +44,4 @@
     name: nagios_ansible
     description: Nagios through ansible
     state: present
-    baseurl: http://{{master_ip}}:{{ nag_port }}/nagios_ansible
+    baseurl: http://{{master_ip}}:{{ http_custom_port }}/nagios_ansible

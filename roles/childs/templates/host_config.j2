@@ -1,0 +1,6 @@
+define host{
+        use             generic-server
+        host_name       {{ child_names }}
+        alias           {{ child_names }}
+        address         {{ childs }}
+}

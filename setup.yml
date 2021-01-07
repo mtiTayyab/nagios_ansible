@@ -19,3 +19,8 @@
       become: true
       tags:
         - nagios_childs
+
+    - role: child_master
+      become: true
+      tags:
+        - child_master

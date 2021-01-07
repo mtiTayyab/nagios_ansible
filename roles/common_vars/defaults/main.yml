@@ -20,3 +20,18 @@ master_ip: 127.0.0.1      # IP for nagios master
 nag_dir: nagios-4.4.2       # Nagios source directory
 nagp_dir: nagios-plugins    # Nagios plugins source directory
 nag_port: 8008
+
+childs:
+  - 
+    name: child1
+    ip: 127.0.0.1
+  - 
+    name: client
+    ip: 192.168.1.244
+
+host_group: 
+  - child1, client
+host_group_alias: 
+  - "child nodes"
+host_group_name: 
+  - prod_child
