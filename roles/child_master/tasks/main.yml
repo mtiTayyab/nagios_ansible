@@ -28,6 +28,7 @@
           alias           {{ item.name }}
           address         {{ item.ip }}
         }
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
   with_items: "{{ childs }}"
 
 # - name: adding every child host group entry in hosts.cfg file
