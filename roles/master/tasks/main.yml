@@ -1,8 +1,18 @@
 ---
 - name: Nagios - Prerequisite
   yum:
-    name: "{{ nag_pre_pkgs }}"
+    name: "{{ item }}"
     state: present
+    with_item:
+        - httpd-tools
+        - php
+        - gcc
+        - glibc
+        - glibc-common
+        - gd
+        - gd-devel
+        - make
+        - net-snmp
 
 - name: Nagios - Add Group
   group:
@@ -28,48 +38,48 @@
 - name: Nagios - Unzip
   unarchive:
     src: ~/nagios.zip
-    dest: ~/{{ nag_dir }}
+    dest: ~/{{ nagios_pkg_dir }}
     remote_src: no
 
 - name: Nagios - Configure Source Directory
   command:
     cmd: "./configure --with-command-group=nagcmd"
-    chdir: "~/{{ nag_dir }}"
+    chdir: "~/{{ nagios_pkg_dir }}"
 
 - name: Nagios - Make
   command:
     cmd: make
-    chdir: ~/{{ nag_dir }}
+    chdir: ~/{{ nagios_pkg_dir }}
 
 - name: Nagios - Make All
   command:
     cmd: make all
-    chdir: ~/{{ nag_dir }}
+    chdir: ~/{{ nagios_pkg_dir }}
 
 - name: Nagios - Make Install
   command:
     cmd: make install
-    chdir: ~/{{ nag_dir }}
+    chdir: ~/{{ nagios_pkg_dir }}
 
 - name: Nagios - Install-Init
   command:
     cmd: make install-init
-    chdir: ~/{{ nag_dir }}
+    chdir: ~/{{ nagios_pkg_dir }}
 
 - name: Nagios - Command Mode
   command:
     cmd: make install-commandmode
-    chdir: ~/{{ nag_dir }}
+    chdir: ~/{{ nagios_pkg_dir }}
 
 - name: Nagios - Config
   command:
     cmd: make install-config
-    chdir: ~/{{ nag_dir }}
+    chdir: ~/{{ nagios_pkg_dir }}
 
 - name: Nagios - Web Conf
   command:
     cmd: make install-webconf
-    chdir: ~/{{ nag_dir }}
+    chdir: ~/{{ nagios_pkg_dir }}
 
 - name: Password File For 'nagios' User
   htpasswd:
@@ -86,29 +96,29 @@
 
 - name: NagiosPlugins - Copy Source Zip
   copy:
-    src: "{{ nagp_dir }}.zip"
-    dest: "~/{{ nagp_dir }}.zip"
+    src: "{{ nagios_plugions_pkg_dir }}.zip"
+    dest: "~/{{ nagios_plugions_pkg_dir }}.zip"
 
 - name: NagiosPlugins - Unzip
   unarchive:
-    src: ~/{{ nagp_dir }}.zip
+    src: ~/{{ nagios_plugions_pkg_dir }}.zip
     dest: ~/
     remote_src: no
 
 - name: NagiosPlugins - Configure Source Directory
   command:
     cmd: "./configure"
-    chdir: "~/{{ nagp_dir }}"
+    chdir: "~/{{ nagios_plugions_pkg_dir }}"
 
 - name: NagiosPlugins - Make
   command:
     cmd: make
-    chdir: ~/{{ nagp_dir }}
+    chdir: ~/{{ nagios_plugions_pkg_dir }}
 
 - name: NagiosPlugins - Make Install
   command:
     cmd: make install
-    chdir: ~/{{ nagp_dir }}
+    chdir: ~/{{ nagios_plugions_pkg_dir }}
 
 - name: Start Web Server
   service:

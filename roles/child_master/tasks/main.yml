@@ -14,13 +14,13 @@
 
 - name: host file in conf.d directory
   file:
-    path: /root/hosts.cfg
+    path: /usr/local/nagios/etc/conf.d/hosts.cfg
     state: touch
 
 - name: adding every child host entry in hosts.cfg file
   
   blockinfile:
-    path: /root/hosts.cfg
+    path: /usr/local/nagios/etc/conf.d/hosts.cfg
     block: |
       define host{
           use             generic-server
@@ -30,16 +30,3 @@
         }
     marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
   with_items: "{{ childs }}"
-
-# - name: adding every child host group entry in hosts.cfg file
-  
-#   blockinfile:
-#     path: /usr/local/nagios/etc/conf.d/hosts.cfg
-#     block: |
-#       define host{
-#           use             generic-server
-#           host_name       {{ child_alias }}
-#           alias           {{ child_alias }}
-#           address         {{ child_ip }}
-#         }
-

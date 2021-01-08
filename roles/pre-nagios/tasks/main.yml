@@ -32,7 +32,7 @@
   lineinfile:
     path: "/etc/httpd/conf/httpd.conf"
     regexp: "^Listen 80$"
-    line: "Listen {{ http_custom_port }}"
+    line: "Listen {{ httpd_port }}"
 
 - name: restarting service http
   service:

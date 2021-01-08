@@ -13,29 +13,29 @@
 
 - name: NagiosPlugins - Copy Source Zip
   copy:
-    src: "{{ nagp_dir }}.zip"
-    dest: "~/{{ nagp_dir }}.zip"
+    src: "{{ nagios_plugions_pkg_dir }}.zip"
+    dest: "~/{{ nagios_plugions_pkg_dir }}.zip"
 
 - name: NagiosPlugins - Unzip
   unarchive:
-    src: ~/{{ nagp_dir }}.zip
+    src: ~/{{ nagios_plugions_pkg_dir }}.zip
     dest: ~/
     remote_src: no
 
 - name: NagiosPlugins - Configure Source Directory
   command:
     cmd: "./configure"
-    chdir: "~/{{ nagp_dir }}"
+    chdir: "~/{{ nagios_plugions_pkg_dir }}"
 
 - name: NagiosPlugins - Make
   command:
     cmd: make
-    chdir: ~/{{ nagp_dir }}
+    chdir: ~/{{ nagios_plugions_pkg_dir }}
 
 - name: NagiosPlugins - Make Install
   command:
     cmd: make install
-    chdir: ~/{{ nagp_dir }}
+    chdir: ~/{{ nagios_plugions_pkg_dir }}
 
 
 - name: Start NRPE
