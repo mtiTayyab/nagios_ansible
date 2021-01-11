@@ -2,7 +2,6 @@
 - name: setting up nagios, httpd and repository using roles.
   hosts: masters
   roles:
-
     - role: pre-nagios
       become: true
       tags:

@@ -1,18 +1,19 @@
 ---
 - name: Nagios - Prerequisite
   yum:
-    name: "{{ item }}"
+    name: "{{ packages }}"
     state: present
-  with_item:
-      - httpd-tools
-      - php
-      - gcc
-      - glibc
-      - glibc-common
-      - gd
-      - gd-devel
-      - make
-      - net-snmp
+  vars:
+      packages:
+        - httpd-tools
+        - php
+        - gcc
+        - glibc
+        - glibc-common
+        - gd
+        - gd-devel
+        - make
+        - net-snmp
 
 - name: Nagios - Add Group
   group:
