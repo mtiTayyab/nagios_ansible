@@ -19,7 +19,7 @@
   yum_repository:
     name: nagios_ansible
     description: Nagios
-    baseurl: file:////var/www/html/nagios_ansible/
+    baseurl: file:///var/www/html/nagios_ansible/
 
 - name: install httpd
   yum:
@@ -32,7 +32,7 @@
   lineinfile:
     path: "/etc/httpd/conf/httpd.conf"
     regexp: "^Listen 80$"
-    line: "Listen {{ httpd_port }}"
+    line: "Listen {{ http_custom_port }}"
 
 - name: restarting service http
   service:

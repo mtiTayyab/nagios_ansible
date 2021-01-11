@@ -3,16 +3,16 @@
   yum:
     name: "{{ item }}"
     state: present
-    with_item:
-        - httpd-tools
-        - php
-        - gcc
-        - glibc
-        - glibc-common
-        - gd
-        - gd-devel
-        - make
-        - net-snmp
+  with_item:
+      - httpd-tools
+      - php
+      - gcc
+      - glibc
+      - glibc-common
+      - gd
+      - gd-devel
+      - make
+      - net-snmp
 
 - name: Nagios - Add Group
   group:

@@ -5,7 +5,7 @@ master_ip: 127.0.0.1      # IP for nagios master
 
 nagios_pkg_dir: nagios-4.4.2       # Nagios source directory
 nagios_plugions_pkg_dir: nagios-plugins    # Nagios plugins source directory
-httpd_port: 8008
+http_custom_port: 8008
 
 childs:
   - 
