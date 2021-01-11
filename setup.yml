@@ -14,12 +14,14 @@
         - nagios
         - nagios_master
 
-    - role: childs
-      become: true
-      tags:
-        - nagios_childs
-
     - role: child_master
       become: true
       tags:
         - child_master
+- name: setup on child_nodes
+  hosts: childs
+  roles:
+    - role: childs
+      become: true
+      tags:
+        - nagios_childs
