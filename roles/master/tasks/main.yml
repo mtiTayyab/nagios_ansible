@@ -4,16 +4,16 @@
     name: "{{ packages }}"
     state: present
   vars:
-      packages:
-        - httpd-tools
-        - php
-        - gcc
-        - glibc
-        - glibc-common
-        - gd
-        - gd-devel
-        - make
-        - net-snmp
+    packages:
+      - httpd-tools
+      - php
+      - gcc
+      - glibc
+      - glibc-common
+      - gd
+      - gd-devel
+      - make
+      - net-snmp
 
 - name: Nagios - Add Group
   group:
@@ -39,7 +39,7 @@
 - name: Nagios - Unzip
   unarchive:
     src: ~/nagios.zip
-    dest: ~/{{ nagios_pkg_dir }}
+    dest: ~/.
     remote_src: no
 
 - name: Nagios - Configure Source Directory
