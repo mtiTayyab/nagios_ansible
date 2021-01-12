@@ -17,18 +17,18 @@
 
 - name: Nagios - Add Group
   group:
-    name: nagios
+    name: nagcmd
     state: present
 
 - name: Nagios - Add User 'nagios' as Group Member Of 'nagios'
   user:
     name: nagios
-    group: nagios
+    group: nagcmd
 
 - name: Nagios - Add User 'apache' as Group Member Of 'nagios'
   user:
     name: apache
-    group: nagios
+    group: nagcmd
     append: yes
 
 - name: Nagios - Copy Source Zip
