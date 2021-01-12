@@ -13,8 +13,11 @@
   yum:
     name: unzip
     state: present
-    disablerepo: "*"
-    enablerepo: nagios_ansible
+
+- name: install createrepo
+  yum:
+    name: createrepo
+    state: present
 
 - name: using unarchive module to Un-tarin
   unarchive:
@@ -36,13 +39,6 @@
 - name: install httpd
   yum:
     name: httpd
-    state: present
-    disablerepo: "*"
-    enablerepo: nagios_ansible
-
-- name: install createrepo
-  yum:
-    name: createrepo
     state: present
     disablerepo: "*"
     enablerepo: nagios_ansible
