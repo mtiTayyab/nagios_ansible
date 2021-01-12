@@ -27,8 +27,8 @@
 
 - name: creating a repo on html path
   shell:
-    cmd:  "createrepo {{ nagios_pkg_dir }}"
-    chdir: /var/www/html
+    cmd:  "createrepo /var/www/html/{{ nagios_pkg_dir }}"
+    chdir: 
 
 - name: Add nagios repository with local file protocol
   yum_repository:
