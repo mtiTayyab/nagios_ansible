@@ -22,7 +22,7 @@
   blockinfile:
     path: /usr/local/nagios/etc/conf.d/hosts.cfg
     block: |
-      define host{
+      define host {
           use             generic-server
           host_name       {{ item.name }}
           alias           {{ item.name }}

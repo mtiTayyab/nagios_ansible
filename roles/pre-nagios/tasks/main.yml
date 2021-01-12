@@ -9,11 +9,23 @@
     src: "rpms.zip"
     dest: "/var/www/html/nagios_ansible/rpms.zip"
 
-- name: using shell module to Un-tarin
+- name: install unzip
+  yum:
+    name: unzip
+    state: present
+    disablerepo: "*"
+    enablerepo: nagios_ansible
+
+- name: using unarchive module to Un-tarin
   unarchive:
     src: /var/www/html/nagios_ansible/rpms.zip
     dest: /var/www/html/nagios_ansible/
     remote_src: no
+
+- name: creating a repo on html path
+  shell:
+    cmd:  "createrepo {{ nagios_pkg_dir }}"
+    chdir: /var/www/html
 
 - name: Add nagios repository with local file protocol
   yum_repository:
@@ -24,6 +36,20 @@
 - name: install httpd
   yum:
     name: httpd
+    state: present
+    disablerepo: "*"
+    enablerepo: nagios_ansible
+
+- name: install createrepo
+  yum:
+    name: createrepo
+    state: present
+    disablerepo: "*"
+    enablerepo: nagios_ansible
+
+- name: install python2-passlib
+  yum:
+    name: python2-passlib
     state: present
     disablerepo: "*"
     enablerepo: nagios_ansible
