@@ -19,9 +19,6 @@ childs:
     ip: 192.168.1.98
 
 
-host_group: 
-  - client1,client2,client3 
-host_group_alias: 
-  - "child nodes"
-host_group_name: 
-  - prod_child
+host_group: "client1,client2,client3"
+host_group_alias: "child nodes"
+host_group_name: "prod_child"
