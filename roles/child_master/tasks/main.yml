@@ -33,15 +33,14 @@
 
 - name: adding child hostgroup in hosts.cfg file
   blockinfile:
-    path: /usr/local/nagios/etc/conf.d/hosts.cfg
+    path: /usr/local/nagios/etc/conf.d/hostgroups.cfg
     block: |
       define hostgroup{
         hostgroup_name  child_nodes
         alias           {{ host_group_alias }}
         members         {{ host_group }}
       }
-    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
-  with_items: "{{ childs }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
   
 
 - name: services file in conf.d directory
