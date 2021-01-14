@@ -5,6 +5,7 @@
     description: NRPE Ref
     state: present
     baseurl: http://{{master_ip}}:{{ http_custom_port }}/nagios_ansible
+    gpgcheck: no
 
 - name: NRPE - Install
   yum:
