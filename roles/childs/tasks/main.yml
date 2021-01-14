@@ -7,6 +7,11 @@
     baseurl: http://{{master_ip}}:{{ http_custom_port }}/nagios_ansible
     gpgcheck: no
 
+- name: Nagios - Prerequisite
+  yum:
+    name: gcc
+    state: present
+
 - name: NRPE - Install
   yum:
     name: nrpe
