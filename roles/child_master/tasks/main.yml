@@ -110,5 +110,5 @@
         check_command           check_http
         notifications_enabled   0
       }
-    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
   
