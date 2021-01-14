@@ -29,9 +29,14 @@
         }
     marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
   with_items: "{{ childs }}"
-  
 
-- name: adding child hostgroup in hosts.cfg file
+
+- name: hostgroups file in conf.d directory
+  file:
+    path: /usr/local/nagios/etc/conf.d/hostgroups.cfg
+    state: touch
+
+- name: adding child hostgroup in hostgroups.cfg file
   blockinfile:
     path: /usr/local/nagios/etc/conf.d/hostgroups.cfg
     block: |
