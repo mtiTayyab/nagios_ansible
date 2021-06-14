@@ -1,5 +1,6 @@
 [masters]
-C7
+C7 vm_ip=
 
 [childs]
-C8
+R8 vm_ip=
+R7 vm_ip=

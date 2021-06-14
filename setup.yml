@@ -1,6 +1,6 @@
 ---
-- name: Nagios
-  hosts: masters
+- name: Update
+  hosts: all
   gather_facts: no
   tasks:
     - name: Update
@@ -10,20 +10,45 @@
       tags:
         - update
 
-    - name: Install
+    - name: EPEL
+      yum:
+        name: epel-release
+        state: latest
+      tags:
+        - epel
+
+- name: Nagios
+  hosts: masters
+  gather_facts: no
+  tasks:
+    - name: Install Nagios
       yum:
         name: nagios
         state: latest
       tags:
         - install
 
-    - htpasswd:
+    - name: Passlib
+      yum:
+        name: python-passlib
+        state: latest
+      tags:
+        - passlib
+
+    - name: HT Pass
+      htpasswd:
         path: /etc/nagios/passwd
         name: nagiosadmin
         password: seamless
         crypt_scheme: md5_crypt
       tags:
         - htpass
+
+    #- name: changing port 80 to Custom
+    #  lineinfile:
+    #    path: "/etc/httpd/conf/httpd.conf"
+    #    regexp: "^Listen 80$"
+    #    line: "Listen {{ http_custom_port }}"
 
     - service:
         name: "{{ item }}"
@@ -32,5 +57,176 @@
       loop:
         - nagios
         - httpd
+        - firewalld
       tags:
         - service
+
+    - name: Firewall
+      firewalld:
+        service: "{{ item }}"
+        permanent: true
+        immediate: yes
+        state: enabled
+      loop:
+        - http
+        - https
+      tags:
+        - firewall
+
+- name: NRPE
+  hosts: childs
+  gather_facts: no
+  tasks:
+    - name: Install NRPE
+      yum:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - nrpe
+        - nagios-plugins
+      tags:
+        - NRPE
+
+    - name: Allowed Host
+      lineinfile:
+        path: "/etc/nagios/nrpe.cfg"
+        regexp: "^allowed_hosts=127.0.0.1"
+        line: "allowed_hosts=127.0.0.1 {{ master_ip }}"
+      tags:
+        - allowed
+
+    - service:
+        name: nrpe
+        state: started
+        enabled: yes
+      tags:
+        - nrpeser
+
+- name: Hosts
+  hosts: masters
+  gather_facts: no
+  tasks:
+    - name: Conf Directory
+      file:
+        path: /etc/nagios/servers
+        state: directory
+        group: nagios
+        owner: nagios
+        mode: "0755"
+      tags:
+        - dir
+
+    - name: Include Conf Directory
+      lineinfile:
+        path: /etc/nagios/nagios.cfg
+        line: "cfg_dir=/etc/nagios/servers"
+      tags:
+        - include
+
+    - name: Child Servers File
+      file:
+        path: /etc/nagios/servers/hosts.cfg
+        state: touch
+      tags:
+        - conf
+
+    - name: Add Child Hosts
+      blockinfile:
+        path: /etc/nagios/servers/hosts.cfg
+        block: |
+          {% for item in groups['childs'] %}
+          define host {
+              use               linux-server
+              host_name         {{ item }}
+              alias             {{ item }}
+              address           {{ hostvars[item].vm_ip }}
+              contact_groups    seamless
+            }
+          {% endfor %}
+      tags:
+        - addhost
+
+    - name: HostGroup File
+      file:
+        path: /etc/nagios/servers/hostgroups.cfg
+        state: touch
+
+    - name: Add HostGroup
+      blockinfile:
+        path: /etc/nagios/servers/hostgroups.cfg
+        block: |
+          define hostgroup {
+            hostgroup_name  child_nodes
+            alias           {{ host_group_alias }}
+            members         {{ host_group }}
+          }
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+
+
+    - name: Services File
+      file:
+        path: /etc/nagios/servers/services.cfg
+        state: touch
+
+    - name: Add Hosts Services
+      blockinfile:
+        path: /etc/nagios/servers/services.cfg
+        block: |
+          define service {
+            use                     local-service
+            hostgroup_name          child_nodes
+            service_description     PING
+            check_command           check_ping!100.0,20%!500.0,60%
+          }
+
+          define service {
+            use                     local-service
+            hostgroup_name          child_nodes
+            service_description     Root Partition
+            check_command           check_local_disk!20%!10%!/
+          }
+
+          define service {
+            use                     local-service
+            hostgroup_name          child_nodes
+            service_description     Current Users
+            check_command           check_local_users!20!50
+          }
+
+          define service {
+            use                     local-service
+            hostgroup_name          child_nodes
+            service_description     Total Processes
+            check_command           check_local_procs!250!400!RSZDT
+          }
+
+          define service {
+            use                     local-service
+            hostgroup_name          child_nodes
+            service_description     Current Load
+            check_command           check_local_load!5.0,4.0,3.0!10.0,6.0,4.0
+          }
+
+          define service {
+            use                     local-service
+            hostgroup_name          child_nodes
+            service_description     Swap Usage
+            check_command           check_local_swap!20%!10%
+          }
+
+          define service {
+            use                     local-service
+            hostgroup_name          child_nodes
+            service_description     SSH
+            check_command           check_ssh
+            notifications_enabled   0
+          }
+
+          define service {
+            use                     local-service
+            hostgroup_name          child_nodes
+            service_description     HTTP
+            check_command           check_http
+            notifications_enabled   0
+          }
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"
