@@ -102,6 +102,15 @@
       tags:
         - nrpeser
 
+    - name: Firewall
+      firewalld:
+        service: nrpe
+        permanent: true
+        immediate: yes
+        state: enabled
+      tags:
+        - firewall2
+
 - name: Hosts
   hosts: masters
   gather_facts: no
@@ -140,7 +149,7 @@
               host_name         {{ item }}
               alias             {{ item }}
               address           {{ hostvars[item].vm_ip }}
-              contact_groups    seamless
+              #contact_groups    seamless
             }
           {% endfor %}
       tags:
