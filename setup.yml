@@ -1,27 +1,36 @@
 ---
-- name: setting up nagios, httpd and repository using roles.
+- name: Nagios
   hosts: masters
-  roles:
-    - role: pre-nagios
-      become: true
+  gather_facts: no
+  tasks:
+    - name: Update
+      yum:
+        name: "*"
+        state: latest
       tags:
-        - setup
-        - pre-requisite
+        - update
 
-    - role: master
-      become: true
+    - name: Install
+      yum:
+        name: nagios
+        state: latest
       tags:
+        - install
+
+    - htpasswd:
+        path: /etc/nagios/passwd
+        name: nagiosadmin
+        password: seamless
+        crypt_scheme: md5_crypt
+      tags:
+        - htpass
+
+    - service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      loop:
         - nagios
-        - nagios_master
-
-    - role: child_master
-      become: true
+        - httpd
       tags:
-        - child_master
-- name: setup on child_nodes
-  hosts: childs
-  roles:
-    - role: childs
-      become: true
-      tags:
-        - nagios_childs
+        - service
