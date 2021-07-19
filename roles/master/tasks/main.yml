@@ -84,7 +84,7 @@
 
 - name: Password File For 'nagios' User
   htpasswd:
-    path: /usr/local/nagios/etc/htpasswd.users
+    path: /etc/nagios/htpasswd.users
     name: nagiosadmin
     password: 'nagiosadmin'
     create: yes

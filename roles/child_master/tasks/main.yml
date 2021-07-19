@@ -1,25 +1,25 @@
 ---
 - name: conf.d directory in master node.
   file: 
-    path: /usr/local/nagios/etc/conf.d
+    path: /etc/nagios/conf.d
     state: directory
-    group: nagcmd
+    group: nagios
     owner: nagios
     mode: "0755"
 
 - name: include conf.d in nagios.cfg
   lineinfile:
-    path: /usr/local/nagios/etc/nagios.cfg
-    line: "cfg_dir=/usr/local/nagios/etc/conf.d"
+    path: /etc/nagios/nagios.cfg
+    line: "cfg_dir=/etc/nagios/conf.d"
 
 - name: host file in conf.d directory
   file:
-    path: /usr/local/nagios/etc/conf.d/hosts.cfg
+    path: /etc/nagios/conf.d/hosts.cfg
     state: touch
 
 - name: adding every child host entry in hosts.cfg file
   blockinfile:
-    path: /usr/local/nagios/etc/conf.d/hosts.cfg
+    path: /etc/nagios/conf.d/hosts.cfg
     block: |
       define host {
           use             linux-server
@@ -33,12 +33,12 @@
 
 - name: hostgroups file in conf.d directory
   file:
-    path: /usr/local/nagios/etc/conf.d/hostgroups.cfg
+    path: /etc/nagios/conf.d/hostgroups.cfg
     state: touch
 
 - name: adding child hostgroup in hostgroups.cfg file
   blockinfile:
-    path: /usr/local/nagios/etc/conf.d/hostgroups.cfg
+    path: /etc/nagios/conf.d/hostgroups.cfg
     block: |
       define hostgroup{
         hostgroup_name  child_nodes
@@ -50,12 +50,12 @@
 
 - name: services file in conf.d directory
   file:
-    path: /usr/local/nagios/etc/conf.d/services.cfg
+    path: /etc/nagios/conf.d/services.cfg
     state: touch
 
 - name: adding every child host entry in services.cfg file
   blockinfile:
-    path: /usr/local/nagios/etc/conf.d/services.cfg
+    path: /etc/nagios/conf.d/services.cfg
     block: |
       define service {
         use                     local-service
